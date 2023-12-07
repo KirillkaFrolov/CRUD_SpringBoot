@@ -11,7 +11,6 @@ import java.util.List;
 
 
 @Repository
-@Transactional
 public class UserDaoImpl implements UserDao {
 
 
@@ -19,11 +18,13 @@ public class UserDaoImpl implements UserDao {
     private EntityManager entityManager;
 
     @Override
+    @Transactional
     public List<User> getAllUsers() {
         return entityManager.createQuery("select u from User u", User.class).getResultList();
     }
 
     @Override
+    @Transactional
     public void addUser(User user) {
         entityManager.persist(user);
 
@@ -31,6 +32,7 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
+    @Transactional
     public void updateUser(User user) {
         entityManager.merge(user);
 
@@ -38,6 +40,7 @@ public class UserDaoImpl implements UserDao {
 
 
     @Override
+    @Transactional
     public User removeUser(long id) {
         User user = entityManager.find(User.class, id);
         entityManager.remove(user);
@@ -45,6 +48,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public User getUserId(long id) {
         TypedQuery<User> query = entityManager.createQuery("select u from User u where u.id =:user_id", User.class);
         query.setParameter("user_id", id);
